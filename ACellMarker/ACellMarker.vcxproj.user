@@ -6,7 +6,7 @@ QT_DEBUG_PLUGINS=1</LocalDebuggerEnvironment>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <LocalDebuggerEnvironment>path=%path%;..\QtLibs\lib; | set QT_DEBUG_PLUGINS=1</LocalDebuggerEnvironment>
+    <LocalDebuggerEnvironment>path=%path%;..\QtLibs\lib;</LocalDebuggerEnvironment>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
   </PropertyGroup>
 </Project>
