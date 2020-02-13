@@ -2,6 +2,7 @@
 
 #include "QtWidgets/qapplication.h"
 #include "QtWidgets/qpushbutton.h"
+#include "QtWidgets/qmainwindow.h"
 
 class ExampleButton : public QPushButton
 {

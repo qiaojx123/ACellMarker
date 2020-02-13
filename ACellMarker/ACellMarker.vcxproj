@@ -116,9 +116,11 @@
   <ItemGroup>
     <ClCompile Include="ACellMarker.cpp" />
     <ClCompile Include="UIClasses.cpp" />
+    <ClCompile Include="UIConf.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="UIClasses.h" />
+    <ClInclude Include="UIConf.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

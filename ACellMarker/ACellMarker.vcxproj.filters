@@ -21,9 +21,15 @@
     <ClCompile Include="UIClasses.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="UIConf.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="UIClasses.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="UIConf.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
