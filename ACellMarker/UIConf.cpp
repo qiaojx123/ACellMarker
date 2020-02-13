@@ -3,7 +3,7 @@
 void InitMainWindow(QMainWindow& appMain, QApplication& app)
 {
 	appMain.setMinimumSize(QSize(512, 384));
-	
+
 	QMenuBar* appMenuBar;
 	appMenuBar = appMain.menuBar();
 

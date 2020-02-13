@@ -4,7 +4,9 @@
 
 int main(int argc, char** argv)
 {
+	QApplication::setLibraryPaths(QStringList("../QtLibs/plugins"));
 	QApplication app(argc,argv);
+	
 
 	QMainWindow appMainWindow;
 	InitMainWindow(appMainWindow, app);
@@ -13,7 +15,7 @@ int main(int argc, char** argv)
 	QObject::connect(&appMainWindow, SIGNAL(destroyed()), &app, SLOT(quit()));
 	return app.exec();
 
-/*	Example
+/*	//Example
 	QApplication app(argc,argv);
 	QWidget window;
 	QPushButton parentButton;
