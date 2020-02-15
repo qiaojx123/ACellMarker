@@ -30,19 +30,31 @@ void InitMainWindow(QMainWindow& appMain, QApplication& app)
 	QPushButton* button = new QPushButton();
 	button->setText("aaa");
 	button->setParent(centralWidget);
+	button->hide();
 
 	QToolBar* appToolBar;
 	appToolBar = InitToolBar();
 	appMain.addToolBar(Qt::LeftToolBarArea, appToolBar);
 	QObject::connect(appToolBar->actions().at(TOOLBAR_TEST3), SIGNAL(triggered()), &app, SLOT(quit()));
+
+	QStatusBar* appStatusBar;
+
+	QFileDialog* openDialog;
+	openDialog = InitOpenDialog();
+	// Use exec() instead of show() to block other windows
+	QObject::connect(fileMenu->actions().at(MENU_FILE_OPENPROJ), SIGNAL(triggered()), openDialog, SLOT(exec()));
+	
+	QObject::connect(openDialog, SIGNAL(fileSelected(const QString&)), button, SLOT(setToolTip(const QString&)));
+	QObject::connect(openDialog, SIGNAL(accepted()), button, SLOT(show()));
 }
 
 QMenu* InitFileMenu()
 {
 	QMenu* fileMenu = new QMenu();
 	std::string menulist[MENU_FILE_TOTAL];
+	menulist[MENU_FILE_NEW		] = MENU_FILE_NEW_T;
+	menulist[MENU_FILE_OPENPROJ	] = MENU_FILE_OPENPROJ_T;
 	menulist[MENU_FILE_OPENIMG	] = MENU_FILE_OPENIMG_T;
-	menulist[MENU_FILE_OPENMARK	] = MENU_FILE_OPENMARK_T;
 	menulist[MENU_FILE_QUIT		] = MENU_FILE_QUIT_T;
 	menulist[MENU_FILE_SAVE		] = MENU_FILE_SAVE_T;
 	menulist[MENU_FILE_SAVEAS	] = MENU_FILE_SAVEAS_T;
@@ -51,6 +63,10 @@ QMenu* InitFileMenu()
 	for (int i = 0; i < MENU_FILE_TOTAL; ++i)
 		if (menulist[i] == "") fileMenu->addSeparator();
 		else fileMenu->addAction(menulist[i].c_str());
+
+	fileMenu->actions().at(MENU_FILE_OPENIMG)->setDisabled(true);
+	fileMenu->actions().at(MENU_FILE_SAVE)->setDisabled(true);
+	fileMenu->actions().at(MENU_FILE_SAVEAS)->setDisabled(true);
 
 	return fileMenu;
 }
@@ -67,6 +83,9 @@ QMenu* InitEditMenu()
 		if (menulist[i] == "") editMenu->addSeparator();
 		else editMenu->addAction(menulist[i].c_str());
 
+	editMenu->actions().at(MENU_EDIT_UNDO)->setDisabled(true);
+	editMenu->actions().at(MENU_EDIT_REDO)->setDisabled(true);
+
 	return editMenu;
 }
 
@@ -74,7 +93,7 @@ QMenu* InitHelpMenu()
 {
 	QMenu* helpMenu = new QMenu();
 	std::string menulist[MENU_HELP_TOTAL];
-	menulist[MENU_HELP_HELP] = MENU_HELP_HELP_T;
+	menulist[MENU_HELP_HELP	] = MENU_HELP_HELP_T;
 	menulist[MENU_HELP_ABOUT] = MENU_HELP_ABOUT_T;
 
 	helpMenu->setTitle(MENU_HELP_TITLE);
@@ -107,4 +126,15 @@ QToolBar* InitToolBar()
 		if (toollist[i] == "") toolBar->addSeparator();
 		else toolBar->addAction(QIcon(iconlist[i].c_str()), toollist[i].c_str());
 	return toolBar;
+}
+
+QFileDialog* InitOpenDialog()
+{
+	QFileDialog* openDialog = new QFileDialog();
+	openDialog->hide();
+	openDialog->setAcceptMode(QFileDialog::AcceptOpen);
+	openDialog->setViewMode(QFileDialog::Detail);
+	openDialog->setFileMode(QFileDialog::ExistingFile);
+	openDialog->setNameFilter("ACellMarker Project File (*.acproj)");
+	return openDialog;
 }

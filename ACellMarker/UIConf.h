@@ -5,6 +5,7 @@
 #include "UIClasses.h"
 #include "QtWidgets/qmenubar.h"
 #include "QtWidgets/qtoolbar.h"
+#include "QtWidgets/qfiledialog.h"
 
 #define M_ICONSIZE 50
 #define M_ICONSPACE 10
@@ -14,17 +15,19 @@
 // Define menu items
 #if 1 
 	#define MENU_FILE_TITLE "File"
-	#define MENU_FILE_OPENIMG 0
-	#define MENU_FILE_OPENIMG_T "Open Image File"
-	#define MENU_FILE_OPENMARK 1
-	#define MENU_FILE_OPENMARK_T "Open Marklist File"
-	#define MENU_FILE_SAVE 2
+	#define MENU_FILE_NEW 0
+	#define MENU_FILE_NEW_T "New Project"
+	#define MENU_FILE_OPENPROJ 1
+	#define MENU_FILE_OPENPROJ_T "Open Project"
+	#define MENU_FILE_OPENIMG 2
+	#define MENU_FILE_OPENIMG_T "Open Image"
+	#define MENU_FILE_SAVE 3
 	#define MENU_FILE_SAVE_T "Save"
-	#define MENU_FILE_SAVEAS 3
+	#define MENU_FILE_SAVEAS 4
 	#define MENU_FILE_SAVEAS_T "Save As"
-	#define MENU_FILE_QUIT 5
+	#define MENU_FILE_QUIT 6
 	#define MENU_FILE_QUIT_T "Quit"
-	#define MENU_FILE_TOTAL 6
+	#define MENU_FILE_TOTAL 7
 
 	#define MENU_EDIT_TITLE "Edit"
 	#define MENU_EDIT_UNDO 0
@@ -64,3 +67,5 @@ QMenu* InitEditMenu();
 QMenu* InitHelpMenu();
 
 QToolBar* InitToolBar();
+
+QFileDialog* InitOpenDialog();
