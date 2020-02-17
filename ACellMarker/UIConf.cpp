@@ -22,10 +22,16 @@ void InitMainWindow(QMainWindow& appMain, QApplication& app)
 	helpMenu = InitHelpMenu();
 	appMenuBar->addMenu(helpMenu);
 
-	QWidget* centralWidget = new QWidget();
+	MainWidget* centralWidget = new MainWidget();
 	appMain.setCentralWidget(centralWidget);
-//	centralWidget->setGeometry(0, 0, 400, 400);
 	centralWidget->setMinimumSize(M_MWINDOWWID - M_ICONSIZE, M_MWINDOWHEI);
+	QObject::connect(fileMenu->actions().at(MENU_FILE_NEW), SIGNAL(triggered()), centralWidget, SLOT(newProj()));
+	//Todo: Change the application title to "ACellMarker - Untitled.acproj*" when user new a project
+
+	// Enable open image and save/saveas when a project is created.
+	QObject::connect(centralWidget, SIGNAL(projOpened(bool)), fileMenu->actions().at(MENU_FILE_OPENIMG), SLOT(setEnabled(bool)));
+	QObject::connect(centralWidget, SIGNAL(projOpened(bool)), fileMenu->actions().at(MENU_FILE_SAVE), SLOT(setEnabled(bool)));
+	QObject::connect(centralWidget, SIGNAL(projOpened(bool)), fileMenu->actions().at(MENU_FILE_SAVEAS), SLOT(setEnabled(bool)));
 
 	QPushButton* button = new QPushButton();
 	button->setText("aaa");
