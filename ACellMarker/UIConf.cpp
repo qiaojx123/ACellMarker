@@ -26,9 +26,9 @@ void InitMainWindow(QMainWindow& appMain, QApplication& app)
 	appMain.setCentralWidget(centralWidget);
 	centralWidget->setMinimumSize(M_MWINDOWWID - M_ICONSIZE, M_MWINDOWHEI);
 	QObject::connect(fileMenu->actions().at(MENU_FILE_NEW), SIGNAL(triggered()), centralWidget, SLOT(newProj()));
-	//Todo: Change the application title to "ACellMarker - Untitled.acproj*" when user new a project
-
-	// Enable open image and save/saveas when a project is created.
+	// Change the window's name when a project is opened / created.
+	QObject::connect(centralWidget, SIGNAL(windowNameChange(const QString&)), &appMain, SLOT(setWindowTitle(const QString&)));
+	// Enable open image and save/saveas when a project is opened / created.
 	QObject::connect(centralWidget, SIGNAL(projOpened(bool)), fileMenu->actions().at(MENU_FILE_OPENIMG), SLOT(setEnabled(bool)));
 	QObject::connect(centralWidget, SIGNAL(projOpened(bool)), fileMenu->actions().at(MENU_FILE_SAVE), SLOT(setEnabled(bool)));
 	QObject::connect(centralWidget, SIGNAL(projOpened(bool)), fileMenu->actions().at(MENU_FILE_SAVEAS), SLOT(setEnabled(bool)));
@@ -52,6 +52,9 @@ void InitMainWindow(QMainWindow& appMain, QApplication& app)
 	
 	QObject::connect(openDialog, SIGNAL(fileSelected(const QString&)), button, SLOT(setToolTip(const QString&)));
 	QObject::connect(openDialog, SIGNAL(accepted()), button, SLOT(show()));
+
+//	appMain.setWindowTitle("1111");
+//	app.setApplicationDisplayName("111");
 }
 
 QMenu* InitFileMenu()

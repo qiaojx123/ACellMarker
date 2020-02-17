@@ -10,6 +10,7 @@ void MainWidget::newProj()
 	// open a new project and change title
 	projTitle = "Untitled.acproj";
 	emit titleChanged(projTitle);
+	emit windowNameChange(QString("ACellMarker - ").append(projTitle).append("*"));
 	emit projOpened(true);
-	QApplication::setApplicationDisplayName(projTitle);
+
 }

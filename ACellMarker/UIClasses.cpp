@@ -213,8 +213,8 @@ int DockMarkList::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     return _id;
 }
 struct qt_meta_stringdata_MainWidget_t {
-    QByteArrayData data[7];
-    char stringdata0[58];
+    QByteArrayData data[9];
+    char stringdata0[83];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -227,13 +227,16 @@ QT_MOC_LITERAL(0, 0, 10), // "MainWidget"
 QT_MOC_LITERAL(1, 11, 12), // "titleChanged"
 QT_MOC_LITERAL(2, 24, 0), // ""
 QT_MOC_LITERAL(3, 25, 8), // "newTitle"
-QT_MOC_LITERAL(4, 34, 10), // "projOpened"
-QT_MOC_LITERAL(5, 45, 4), // "open"
-QT_MOC_LITERAL(6, 50, 7) // "newProj"
+QT_MOC_LITERAL(4, 34, 16), // "windowNameChange"
+QT_MOC_LITERAL(5, 51, 7), // "newName"
+QT_MOC_LITERAL(6, 59, 10), // "projOpened"
+QT_MOC_LITERAL(7, 70, 4), // "open"
+QT_MOC_LITERAL(8, 75, 7) // "newProj"
 
     },
     "MainWidget\0titleChanged\0\0newTitle\0"
-    "projOpened\0open\0newProj"
+    "windowNameChange\0newName\0projOpened\0"
+    "open\0newProj"
 };
 #undef QT_MOC_LITERAL
 
@@ -243,23 +246,25 @@ static const uint qt_meta_data_MainWidget[] = {
        8,       // revision
        0,       // classname
        0,    0, // classinfo
-       3,   14, // methods
+       4,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
        0,       // flags
-       2,       // signalCount
+       3,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    1,   29,    2, 0x06 /* Public */,
-       4,    1,   32,    2, 0x06 /* Public */,
+       1,    1,   34,    2, 0x06 /* Public */,
+       4,    1,   37,    2, 0x06 /* Public */,
+       6,    1,   40,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-       6,    0,   35,    2, 0x0a /* Public */,
+       8,    0,   43,    2, 0x0a /* Public */,
 
  // signals: parameters
     QMetaType::Void, QMetaType::QString,    3,
-    QMetaType::Void, QMetaType::Bool,    5,
+    QMetaType::Void, QMetaType::QString,    5,
+    QMetaType::Void, QMetaType::Bool,    7,
 
  // slots: parameters
     QMetaType::Void,
@@ -274,8 +279,9 @@ void MainWidget::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         Q_UNUSED(_t)
         switch (_id) {
         case 0: _t->titleChanged((*reinterpret_cast< const QString(*)>(_a[1]))); break;
-        case 1: _t->projOpened((*reinterpret_cast< bool(*)>(_a[1]))); break;
-        case 2: _t->newProj(); break;
+        case 1: _t->windowNameChange((*reinterpret_cast< const QString(*)>(_a[1]))); break;
+        case 2: _t->projOpened((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 3: _t->newProj(); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
@@ -288,9 +294,16 @@ void MainWidget::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
             }
         }
         {
+            using _t = void (MainWidget::*)(const QString & );
+            if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&MainWidget::windowNameChange)) {
+                *result = 1;
+                return;
+            }
+        }
+        {
             using _t = void (MainWidget::*)(bool );
             if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&MainWidget::projOpened)) {
-                *result = 1;
+                *result = 2;
                 return;
             }
         }
@@ -326,13 +339,13 @@ int MainWidget::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 3)
+        if (_id < 4)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 3;
+        _id -= 4;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 3)
+        if (_id < 4)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 3;
+        _id -= 4;
     }
     return _id;
 }
@@ -345,10 +358,17 @@ void MainWidget::titleChanged(const QString & _t1)
 }
 
 // SIGNAL 1
-void MainWidget::projOpened(bool _t1)
+void MainWidget::windowNameChange(const QString & _t1)
 {
     void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
     QMetaObject::activate(this, &staticMetaObject, 1, _a);
+}
+
+// SIGNAL 2
+void MainWidget::projOpened(bool _t1)
+{
+    void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
+    QMetaObject::activate(this, &staticMetaObject, 2, _a);
 }
 QT_WARNING_POP
 QT_END_MOC_NAMESPACE

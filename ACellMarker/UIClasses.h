@@ -69,6 +69,7 @@ public slots:
 	void newProj();
 signals:
 	void titleChanged(const QString& newTitle);
+	void windowNameChange(const QString& newName);
 	void projOpened(bool open);
 public:
 	MainWidget() : projTitle(""), isEdited(false) {};
