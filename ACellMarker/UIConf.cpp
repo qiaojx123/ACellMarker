@@ -1,6 +1,6 @@
 #include "UIConf.h"
 
-void InitMainWindow(QMainWindow& appMain, QApplication& app)
+void InitMainWindow(MMainWindow& appMain, QApplication& app)
 {
 	appMain.setMinimumSize(QSize(M_MWINDOWWID, M_MWINDOWHEI));
 
@@ -22,16 +22,22 @@ void InitMainWindow(QMainWindow& appMain, QApplication& app)
 	helpMenu = InitHelpMenu();
 	appMenuBar->addMenu(helpMenu);
 
-	MainWidget* centralWidget = new MainWidget();
+	MainWidget* centralWidget = new MainWidget(new ACProject);
 	appMain.setCentralWidget(centralWidget);
 	centralWidget->setMinimumSize(M_MWINDOWWID - M_ICONSIZE, M_MWINDOWHEI);
-	QObject::connect(fileMenu->actions().at(MENU_FILE_NEW), SIGNAL(triggered()), centralWidget, SLOT(newProj()));
-	// Change the window's name when a project is opened / created.
-	QObject::connect(centralWidget, SIGNAL(windowNameChange(const QString&)), &appMain, SLOT(setWindowTitle(const QString&)));
-	// Enable open image and save/saveas when a project is opened / created.
-	QObject::connect(centralWidget, SIGNAL(projOpened(bool)), fileMenu->actions().at(MENU_FILE_OPENIMG), SLOT(setEnabled(bool)));
-	QObject::connect(centralWidget, SIGNAL(projOpened(bool)), fileMenu->actions().at(MENU_FILE_SAVE), SLOT(setEnabled(bool)));
-	QObject::connect(centralWidget, SIGNAL(projOpened(bool)), fileMenu->actions().at(MENU_FILE_SAVEAS), SLOT(setEnabled(bool)));
+	// When new project is clicked, create a new project.
+	QObject::connect(fileMenu->actions().at(MENU_FILE_NEW), SIGNAL(triggered()), centralWidget->project(), SLOT(newProj()));
+	// TODO: when current project is edited, lead to save or ignore changes.
+
+	// Change the window's name when a project is opened / created / edited.
+	QObject::connect(centralWidget->project(), SIGNAL(titleChanged(const QString&, bool)), &appMain, SLOT(changeWindowTitle(const QString&, bool)));
+	// Enable open image and save/saveas when a project is opened / created / edited.
+	QObject::connect(centralWidget->project(), SIGNAL(projOpened(bool)), fileMenu->actions().at(MENU_FILE_OPENIMG), SLOT(setEnabled(bool)));
+	QObject::connect(centralWidget->project(), SIGNAL(projEdited(bool)), fileMenu->actions().at(MENU_FILE_SAVE), SLOT(setEnabled(bool)));
+	QObject::connect(centralWidget->project(), SIGNAL(projOpened(bool)), fileMenu->actions().at(MENU_FILE_SAVEAS), SLOT(setEnabled(bool)));
+
+	QObject::connect(fileMenu->actions().at(MENU_FILE_SAVE), SIGNAL(triggered()), centralWidget->project(), SLOT(saveProj()));
+	QObject::connect(fileMenu->actions().at(MENU_FILE_SAVEAS), SIGNAL(triggered()), centralWidget->project(), SLOT(saveProjAs()));
 
 	QPushButton* button = new QPushButton();
 	button->setText("aaa");

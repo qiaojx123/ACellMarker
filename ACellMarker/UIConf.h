@@ -5,7 +5,6 @@
 #include "UIClasses.h"
 #include "QtWidgets/qmenubar.h"
 #include "QtWidgets/qtoolbar.h"
-#include "QtWidgets/qfiledialog.h"
 
 #define M_ICONSIZE 50
 #define M_ICONSPACE 10
@@ -58,7 +57,7 @@
 #define TOOLBAR_TOTAL 4
 #endif
 
-void InitMainWindow(QMainWindow& appMain, QApplication& app);
+void InitMainWindow(MMainWindow& appMain, QApplication& app);
 
 QMenu* InitFileMenu();
 
