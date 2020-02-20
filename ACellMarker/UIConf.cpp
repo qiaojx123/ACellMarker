@@ -27,7 +27,7 @@ void InitMainWindow(MMainWindow& appMain, QApplication& app)
 	centralWidget->setMinimumSize(M_MWINDOWWID - M_ICONSIZE, M_MWINDOWHEI);
 	// When new project is clicked, create a new project.
 	QObject::connect(fileMenu->actions().at(MENU_FILE_NEW), SIGNAL(triggered()), centralWidget->project(), SLOT(newProj()));
-	// TODO: when current project is edited, lead to save or ignore changes.
+	QObject::connect(fileMenu->actions().at(MENU_FILE_OPENIMG), SIGNAL(triggered()), centralWidget->project(), SLOT(openImage()));
 
 	// Change the window's name when a project is opened / created / edited.
 	QObject::connect(centralWidget->project(), SIGNAL(titleChanged(const QString&, bool)), &appMain, SLOT(changeWindowTitle(const QString&, bool)));
@@ -36,6 +36,7 @@ void InitMainWindow(MMainWindow& appMain, QApplication& app)
 	QObject::connect(centralWidget->project(), SIGNAL(projEdited(bool)), fileMenu->actions().at(MENU_FILE_SAVE), SLOT(setEnabled(bool)));
 	QObject::connect(centralWidget->project(), SIGNAL(projOpened(bool)), fileMenu->actions().at(MENU_FILE_SAVEAS), SLOT(setEnabled(bool)));
 
+	QObject::connect(fileMenu->actions().at(MENU_FILE_OPENPROJ), SIGNAL(triggered()), centralWidget->project(), SLOT(openProj()));
 	QObject::connect(fileMenu->actions().at(MENU_FILE_SAVE), SIGNAL(triggered()), centralWidget->project(), SLOT(saveProj()));
 	QObject::connect(fileMenu->actions().at(MENU_FILE_SAVEAS), SIGNAL(triggered()), centralWidget->project(), SLOT(saveProjAs()));
 
@@ -51,16 +52,7 @@ void InitMainWindow(MMainWindow& appMain, QApplication& app)
 
 	QStatusBar* appStatusBar;
 
-	QFileDialog* openDialog;
-	openDialog = InitOpenDialog();
-	// Use exec() instead of show() to block other windows
-	QObject::connect(fileMenu->actions().at(MENU_FILE_OPENPROJ), SIGNAL(triggered()), openDialog, SLOT(exec()));
-	
-	QObject::connect(openDialog, SIGNAL(fileSelected(const QString&)), button, SLOT(setToolTip(const QString&)));
-	QObject::connect(openDialog, SIGNAL(accepted()), button, SLOT(show()));
 
-//	appMain.setWindowTitle("1111");
-//	app.setApplicationDisplayName("111");
 }
 
 QMenu* InitFileMenu()
@@ -141,15 +133,4 @@ QToolBar* InitToolBar()
 		if (toollist[i] == "") toolBar->addSeparator();
 		else toolBar->addAction(QIcon(iconlist[i].c_str()), toollist[i].c_str());
 	return toolBar;
-}
-
-QFileDialog* InitOpenDialog()
-{
-	QFileDialog* openDialog = new QFileDialog();
-	openDialog->hide();
-	openDialog->setAcceptMode(QFileDialog::AcceptOpen);
-	openDialog->setViewMode(QFileDialog::Detail);
-	openDialog->setFileMode(QFileDialog::ExistingFile);
-	openDialog->setNameFilter("ACellMarker Project File (*.acproj)");
-	return openDialog;
 }

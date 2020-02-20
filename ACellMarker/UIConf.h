@@ -66,5 +66,3 @@ QMenu* InitEditMenu();
 QMenu* InitHelpMenu();
 
 QToolBar* InitToolBar();
-
-QFileDialog* InitOpenDialog();

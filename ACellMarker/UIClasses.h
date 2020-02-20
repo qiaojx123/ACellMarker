@@ -8,6 +8,8 @@
 #include "QtCore/qjsonobject.h"
 #include "QtCore/qjsondocument.h"
 #include "QtWidgets/qfiledialog.h"
+#include "QtWidgets/qmessagebox.h"
+#include "QtCore/qjsonarray.h"
 
 class ExampleButton : public QPushButton
 {
@@ -40,17 +42,17 @@ private:
 class Marking
 {
 public:
-	Marking() : leftEdge(0), rightEdge(0), bottomEdge(0), topEdge(0), mark(""), valid(false) {}
-	Marking(const int left, const int right, const int top, const int bottom) : leftEdge(left), rightEdge(right), topEdge(top), bottomEdge(bottom), mark("Default"), valid(true) {};
-	Marking(const int left, const int right, const int top, const int bottom, const QString mark) : leftEdge(left), rightEdge(right), topEdge(top), bottomEdge(bottom), mark(mark), valid(true) {};
+	Marking() : leftEdge(0), rightEdge(0), bottomEdge(0), topEdge(0), tag(""), valid(false) {}
+	Marking(const int left, const int right, const int top, const int bottom) : leftEdge(left), rightEdge(right), topEdge(top), bottomEdge(bottom), tag("Default"), valid(true) {};
+	Marking(const int left, const int right, const int top, const int bottom, const QString tag) : leftEdge(left), rightEdge(right), topEdge(top), bottomEdge(bottom), tag(tag), valid(true) {};
 	void setBbox(const int left, const int right, const int top, const int bottom) { leftEdge = left, rightEdge = right, topEdge = top, bottomEdge = bottom; }
-	bool getBbox(int& left, int& right, int& top, int& bottom) const { left = leftEdge, right = rightEdge, top = topEdge, bottom = bottomEdge; }
-	void setMark(const QString mark) { this->mark = mark; }
-	bool getMark(QString& mark) const { if (valid) mark = this->mark; return valid; }
+	bool getBbox(int& left, int& right, int& top, int& bottom) const { left = leftEdge, right = rightEdge, top = topEdge, bottom = bottomEdge; return valid; }
+	void setTag(const QString tag) { this->tag = tag; }
+	bool getTag(QString& tag) const { if (valid) tag = this->tag; return valid; }
 	int getArea() const { return (rightEdge - leftEdge) * (bottomEdge - topEdge); }
 private:
 	int leftEdge, topEdge, rightEdge, bottomEdge;
-	QString mark;
+	QString tag;
 	bool valid;
 };
 
@@ -74,10 +76,11 @@ class ACProject : public QObject
 {
 Q_OBJECT
 public slots:
-	void newProj();
-	void openProj(const QString);
-	void saveProj();
-	void saveProjAs();
+	bool newProj();
+	bool openProj();
+	bool openImage();
+	bool saveProj();
+	bool saveProjAs();
 	void setProjName(const QString);
 	void setProjPath(const QString);
 	void setImgPath(const QString);
@@ -86,6 +89,7 @@ signals:
 	void projEdited(bool);
 	void projOpened(bool);
 	void openFailed();
+	void imagePathChanged(const QString&);
 public:
 	ACProject() : projName(""), projPath(""), projImgPath(""), isEdited(false) {}
 	ACProject(QString path);
@@ -95,7 +99,10 @@ public:
 	void addMark2List(const Marking mark);
 	int delMarkinList(const Marking mark);
 	QByteArray toByteArray();
+	bool fromByteArray(QByteArray);
 private:
+	int saveOrDiscard();
+
 	QString projName, projPath, projImgPath;
 	QList<Marking> markList;
 	bool isEdited;
