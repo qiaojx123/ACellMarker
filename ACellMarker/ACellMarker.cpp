@@ -8,7 +8,7 @@ int main(int argc, char** argv)
 	QApplication app(argc,argv);
 	
 
-	QMainWindow appMainWindow;
+	MMainWindow appMainWindow;
 	InitMainWindow(appMainWindow, app);
 	appMainWindow.show();
 

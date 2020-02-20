@@ -116,6 +116,7 @@
   <ItemGroup>
     <ClCompile Include="ACellMarker.cpp" />
     <ClCompile Include="UIClasses.cpp" />
+    <ClCompile Include="UIClasses_func.cpp" />
     <ClCompile Include="UIConf.cpp" />
   </ItemGroup>
   <ItemGroup>
